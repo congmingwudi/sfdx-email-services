@@ -1,0 +1,19 @@
+minimum_cumulusci_version: '3.12.2'
+project:
+    name: sfdx-email-services
+    package:
+        name:  sfdx-email-services
+        api_version: '48.0'
+    source_format: sfdx
+
+tasks:
+    robot:
+        options:
+            suites: robot/sfdx-email-services/tests
+            options:
+                outputdir: robot/sfdx-email-services/results
+
+    robot_testdoc:
+        options:
+            path: robot/sfdx-email-services/tests
+            output: robot/sfdx-email-services/doc/sfdx-email-services_tests.html
