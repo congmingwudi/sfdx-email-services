@@ -18,6 +18,7 @@ robot/sfdx-email-services/results/
 .idea
 .project
 .settings
+IlluminatedCloud/
 
 # Misc
 .DS_Store

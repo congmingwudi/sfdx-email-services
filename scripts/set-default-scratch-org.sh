@@ -1,2 +1,2 @@
-USER_ALIAS="sfdx-einstein-nba__dev"
+USER_ALIAS="sfdx-email-services__qa"
 sfdx force:config:set defaultusername=$USER_ALIAS
