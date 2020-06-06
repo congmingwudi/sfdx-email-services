@@ -1,7 +1,6 @@
 global class QuoteEmailService implements Messaging.InboundEmailHandler {
 
-    global String userAssignToField = 'Email_Intake__c';
-    global String userAssignToValue = 'QuoteEmailService';
+    global String emailIntakeName = 'QuoteEmailService'; // name of the custom meta data 'Email Intake" record name
       
     global Messaging.InboundEmailResult handleInboundEmail(Messaging.InboundEmail email, Messaging.InboundEnvelope envelope) {
 
@@ -14,7 +13,20 @@ global class QuoteEmailService implements Messaging.InboundEmailHandler {
             Contact contact = getContact(email);
 
             // user to assign task
-            User user = [SELECT Id, Name FROM User where Name = 'User User' LIMIT 1];
+            // look up from custom metadata type 'Email Intake'
+            // better to store the username in Context_User_Name__c and use it to look up the user
+            // but storing the user full name for now to make it easier for scratch orgs
+            User contextUser;
+            List<Email_Intake__mdt> emailIntakes = [SELECT Context_User_Name__c FROM Email_Intake__mdt where DeveloperName = :emailIntakeName];
+            System.debug('QuoteEmailService > handleInboundEmail - emailIntakes: ' + emailIntakes);
+            if (emailIntakes.size() > 0) {
+                String contextUserName = emailIntakes.get(0).Context_User_Name__c;
+                List<User> users = [SELECT Id, Name FROM User where Name = :contextUserName];
+                System.debug('QuoteEmailService > handleInboundEmail - users: ' + users);
+                if (users.size() > 0) {
+                    contextUser = users.get(0);
+                }
+            }
 
             // email content
             String content = 'From: ' + email.fromAddress;
@@ -23,7 +35,7 @@ global class QuoteEmailService implements Messaging.InboundEmailHandler {
 
             // create task
             Task task = new Task();
-            task.OwnerId = user.Id;
+            task.OwnerId = (contextUser != null) ? contextUser.Id : null;
             task.ActivityDate = Date.today();
             task.Status = 'Completed';
             task.WhoId = contact.Id;
