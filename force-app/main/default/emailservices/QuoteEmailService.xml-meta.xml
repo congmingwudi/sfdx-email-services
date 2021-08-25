@@ -8,7 +8,7 @@
         <developerName>QuoteEmailService</developerName>
         <isActive>true</isActive>
         <localPart>quoteemailservice</localPart>
-        <runAsUser>smeng@hpibenioff.demo</runAsUser>
+        <runAsUser>test-0w9ph3tfrjxj@example.com</runAsUser>
     </emailServicesAddresses>
     <errorRoutingAddress>ryan.cox@salesforce.com</errorRoutingAddress>
     <functionInactiveAction>Discard</functionInactiveAction>
